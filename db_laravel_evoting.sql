@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost:3306
--- Generation Time: Apr 30, 2025 at 01:00 PM
+-- Generation Time: May 11, 2025 at 12:23 AM
 -- Server version: 8.0.30
 -- PHP Version: 8.1.10
 
@@ -24,11 +24,41 @@ SET time_zone = "+00:00";
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `agendas`
+--
+
+CREATE TABLE `agendas` (
+  `id` bigint UNSIGNED NOT NULL,
+  `name` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `status` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT 'draft',
+  `detail` text COLLATE utf8mb4_unicode_ci,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `agenda_voter`
+--
+
+CREATE TABLE `agenda_voter` (
+  `id` bigint UNSIGNED NOT NULL,
+  `agenda_id` bigint UNSIGNED NOT NULL,
+  `voter_id` bigint UNSIGNED NOT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `candidates`
 --
 
 CREATE TABLE `candidates` (
   `id` bigint UNSIGNED NOT NULL,
+  `agenda_id` bigint UNSIGNED DEFAULT NULL,
   `name` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
   `photo` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `vision` text COLLATE utf8mb4_unicode_ci,
@@ -37,16 +67,6 @@ CREATE TABLE `candidates` (
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-
---
--- Dumping data for table `candidates`
---
-
-INSERT INTO `candidates` (`id`, `name`, `photo`, `vision`, `mission`, `is_active`, `created_at`, `updated_at`) VALUES
-(1, 'I Kadek Deo Jhoniantara', 'candidate-1745994021.png', 'wsrdvwvasvdr', 'wdrv wsr wsdrdsw\r\nswrfb rsb \r\nsf brs f', 0, '2025-04-29 22:20:23', '2025-04-29 22:23:11'),
-(2, 'ssvd', 'candidate-1746009475.png', 'jgvbm', 'yjhvyfuvh', 1, '2025-04-30 02:37:55', '2025-04-30 02:37:55'),
-(4, 'I Kadek Deo Jhoniantara', 'candidate-1746010825.jpg', 'lwjnk', 'wjkhe rf', 1, '2025-04-30 03:00:25', '2025-04-30 03:00:25'),
-(5, 'abangku', 'candidate-1746015590.jpg', 'ckahkdc', 'kcansca', 1, '2025-04-30 04:19:50', '2025-04-30 04:19:50');
 
 -- --------------------------------------------------------
 
@@ -71,7 +91,12 @@ INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES
 (4, '2024_04_26_000000_create_candidates_table', 1),
 (5, '2024_04_26_000001_create_voters_table', 1),
 (6, '2024_04_26_000003_create_votes_table', 1),
-(7, '2025_04_30_053759_add_columns_to_candidates_table', 1);
+(7, '2025_04_30_053759_add_columns_to_candidates_table', 1),
+(8, '2025_05_01_000000_create_agendas_table', 1),
+(9, '2025_05_01_000001_create_agenda_voter_table', 1),
+(10, '2025_05_01_000002_add_agenda_id_to_candidates_table', 1),
+(11, '2025_05_05_000000_remove_date_from_agendas_table', 1),
+(12, '2025_05_06_162143_add_agenda_id_to_voters_table', 1);
 
 -- --------------------------------------------------------
 
@@ -127,7 +152,7 @@ CREATE TABLE `users` (
 --
 
 INSERT INTO `users` (`id`, `name`, `email`, `email_verified_at`, `password`, `is_admin`, `remember_token`, `created_at`, `updated_at`) VALUES
-(1, 'Admin', 'admin@example.com', NULL, '$2y$12$h35mmatbAPdoQE9rGd04xuN.EEYh1Omz0Mf3Rjdu5XpHmicfrWdFy', 1, NULL, '2025-04-29 21:48:01', '2025-04-29 21:48:01');
+(1, 'Admin', 'admin@example.com', NULL, '$2y$12$wExt2DzEwvFXLDXKeuDSaOXaaTX4Ng7.WG3AMTU6Ks.x9cgvmoMr.', 1, NULL, '2025-05-10 16:17:57', '2025-05-10 16:17:57');
 
 -- --------------------------------------------------------
 
@@ -137,6 +162,7 @@ INSERT INTO `users` (`id`, `name`, `email`, `email_verified_at`, `password`, `is
 
 CREATE TABLE `voters` (
   `id` bigint UNSIGNED NOT NULL,
+  `agenda_id` bigint UNSIGNED NOT NULL,
   `name` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
   `identifier` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
   `voting_code` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
@@ -144,20 +170,6 @@ CREATE TABLE `voters` (
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-
---
--- Dumping data for table `voters`
---
-
-INSERT INTO `voters` (`id`, `name`, `identifier`, `voting_code`, `is_used`, `created_at`, `updated_at`) VALUES
-(1, 'ftbsf', '124135', 'JSNNT0', 1, '2025-04-29 22:22:38', '2025-04-29 23:38:55'),
-(10, 'sfser', '6548163', 'V1EAG5', 1, '2025-04-30 00:03:45', '2025-04-30 00:04:32'),
-(11, 'fedbetf', '635845', 'S73N0K', 1, '2025-04-30 00:03:45', '2025-04-30 00:25:26'),
-(12, 'dfebted', '6548186', 'YX9WOX', 1, '2025-04-30 00:03:45', '2025-04-30 00:29:23'),
-(13, 'detbf', '65815', 'CENWG8', 1, '2025-04-30 00:03:45', '2025-04-30 00:29:57'),
-(14, 'debtfdff', '513648', 'ECD9F1', 1, '2025-04-30 00:03:45', '2025-04-30 02:54:38'),
-(15, 'detbfd', '65416', 'YIB9RN', 1, '2025-04-30 00:03:45', '2025-04-30 04:20:44'),
-(16, 'ebdt', '68545168', '2K8DQR', 0, '2025-04-30 00:03:45', '2025-04-30 00:03:45');
 
 -- --------------------------------------------------------
 
@@ -174,27 +186,29 @@ CREATE TABLE `votes` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
--- Dumping data for table `votes`
---
-
-INSERT INTO `votes` (`id`, `voter_id`, `candidate_id`, `created_at`, `updated_at`) VALUES
-(1, 1, 1, '2025-04-29 23:38:55', '2025-04-29 23:38:55'),
-(2, 10, 1, '2025-04-30 00:04:32', '2025-04-30 00:04:32'),
-(3, 11, 1, '2025-04-30 00:25:26', '2025-04-30 00:25:26'),
-(4, 12, 1, '2025-04-30 00:29:23', '2025-04-30 00:29:23'),
-(5, 13, 1, '2025-04-30 00:29:57', '2025-04-30 00:29:57'),
-(6, 14, 2, '2025-04-30 02:54:38', '2025-04-30 02:54:38'),
-(7, 15, 5, '2025-04-30 04:20:44', '2025-04-30 04:20:44');
-
---
 -- Indexes for dumped tables
 --
+
+--
+-- Indexes for table `agendas`
+--
+ALTER TABLE `agendas`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `agenda_voter`
+--
+ALTER TABLE `agenda_voter`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `agenda_voter_agenda_id_foreign` (`agenda_id`),
+  ADD KEY `agenda_voter_voter_id_foreign` (`voter_id`);
 
 --
 -- Indexes for table `candidates`
 --
 ALTER TABLE `candidates`
-  ADD PRIMARY KEY (`id`);
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `candidates_agenda_id_foreign` (`agenda_id`);
 
 --
 -- Indexes for table `migrations`
@@ -229,7 +243,8 @@ ALTER TABLE `users`
 ALTER TABLE `voters`
   ADD PRIMARY KEY (`id`),
   ADD UNIQUE KEY `voters_identifier_unique` (`identifier`),
-  ADD UNIQUE KEY `voters_voting_code_unique` (`voting_code`);
+  ADD UNIQUE KEY `voters_voting_code_unique` (`voting_code`),
+  ADD KEY `voters_agenda_id_foreign` (`agenda_id`);
 
 --
 -- Indexes for table `votes`
@@ -244,16 +259,28 @@ ALTER TABLE `votes`
 --
 
 --
+-- AUTO_INCREMENT for table `agendas`
+--
+ALTER TABLE `agendas`
+  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `agenda_voter`
+--
+ALTER TABLE `agenda_voter`
+  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT;
+
+--
 -- AUTO_INCREMENT for table `candidates`
 --
 ALTER TABLE `candidates`
-  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `migrations`
 --
 ALTER TABLE `migrations`
-  MODIFY `id` int UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+  MODIFY `id` int UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
 
 --
 -- AUTO_INCREMENT for table `personal_access_tokens`
@@ -271,17 +298,36 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT for table `voters`
 --
 ALTER TABLE `voters`
-  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
+  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `votes`
 --
 ALTER TABLE `votes`
-  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT;
 
 --
 -- Constraints for dumped tables
 --
+
+--
+-- Constraints for table `agenda_voter`
+--
+ALTER TABLE `agenda_voter`
+  ADD CONSTRAINT `agenda_voter_agenda_id_foreign` FOREIGN KEY (`agenda_id`) REFERENCES `agendas` (`id`) ON DELETE CASCADE,
+  ADD CONSTRAINT `agenda_voter_voter_id_foreign` FOREIGN KEY (`voter_id`) REFERENCES `voters` (`id`) ON DELETE CASCADE;
+
+--
+-- Constraints for table `candidates`
+--
+ALTER TABLE `candidates`
+  ADD CONSTRAINT `candidates_agenda_id_foreign` FOREIGN KEY (`agenda_id`) REFERENCES `agendas` (`id`) ON DELETE CASCADE;
+
+--
+-- Constraints for table `voters`
+--
+ALTER TABLE `voters`
+  ADD CONSTRAINT `voters_agenda_id_foreign` FOREIGN KEY (`agenda_id`) REFERENCES `agendas` (`id`) ON DELETE CASCADE;
 
 --
 -- Constraints for table `votes`
