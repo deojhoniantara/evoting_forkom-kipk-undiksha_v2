@@ -11,8 +11,8 @@
             theme: {
                 extend: {
                     colors: {
-                        primary: '#4576D3',
-                        accent: '#4DCEC6',
+                        primary: '#111111',
+                        accent: '#444444',
                     },
                     fontFamily: {
                         sans: ['Inter', 'sans-serif'],
@@ -23,11 +23,11 @@
     </script>
     <style>
         .gradient-background {
-            background: linear-gradient(135deg, #4576D3 0%, #4DCEC6 100%);
+            background: linear-gradient(135deg, #111111 0%, #444444 100%);
         }
     </style>
 </head>
-<body class="min-h-screen bg-gradient-to-br from-blue-50 via-cyan-50 to-primary font-sans">
+<body class="min-h-screen bg-gradient-to-br from-white via-gray-100 to-gray-300 font-sans">
     <div class="min-h-screen flex flex-col">
         <!-- Header -->
         <header class="w-full py-8 sm:py-12 px-4">

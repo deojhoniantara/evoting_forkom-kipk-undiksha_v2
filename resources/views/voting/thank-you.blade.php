@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 @section('content')
-<div class="min-h-screen flex items-center justify-center bg-gradient-to-br from-blue-50 to-cyan-50">
+<div class="min-h-screen flex items-center justify-center bg-gradient-to-br from-white via-gray-100 to-gray-300">
     <div class="max-w-md w-full bg-white rounded-2xl shadow-xl p-8 text-center transform transition-all duration-500 hover:scale-105">
         <div class="mb-8">
             <svg class="mx-auto h-24 w-24 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">

@@ -12,8 +12,8 @@
             theme: {
                 extend: {
                     colors: {
-                        primary: '#4576D3',
-                        accent: '#4DCEC6',
+                        primary: '#111111',
+                        accent: '#4B5563',
                     },
                     fontFamily: {
                         sans: ['Inter', 'sans-serif'],
@@ -23,7 +23,7 @@
         }
     </script>
 </head>
-<body class="min-h-screen bg-gradient-to-br from-blue-50 via-cyan-50 to-primary font-sans">
+<body class="min-h-screen bg-gradient-to-br from-white via-gray-100 to-gray-400 font-sans">
     <div class="container mx-auto px-4 py-8 flex flex-col items-center" id="mainContent">
         <!-- Title Section -->
         <div class="text-center mb-4 px-4">
