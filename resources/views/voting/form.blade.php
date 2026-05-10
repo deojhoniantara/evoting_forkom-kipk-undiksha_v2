@@ -80,7 +80,7 @@
                         <!-- Form -->
                         <div class="p-6 sm:p-8">
                             @if($agenda)
-                            <form class="mt-8 space-y-6" action="{{ route('voting.verify') }}" method="POST">
+                            <form class="mt-8 space-y-6" action="{{ route('verify.code') }}" method="POST">
                                 @csrf
                                 <div class="space-y-3">
                                     <label for="voting_code" class="block text-sm font-medium text-gray-700">
